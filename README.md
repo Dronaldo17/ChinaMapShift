@@ -1,8 +1,10 @@
 ChinaMapShift
 =============
+Algorithm for the map offset problem in China.
+解决中国地图偏移问题的算法。
 
-Python script processing KML file to transform coordinates between WGS-84 and GCJ-02 (China).／
-在通用的 WGS-84 坐标系和中国的 GCJ-02 坐标系间，转换 KML 文件中的地理坐标的 Python 脚本。
+Include a KML file processor (Python) to transform coordinates between WGS-84 and GCJ-02 (China).／
+提供在通用的 WGS-84 坐标系和中国的 GCJ-02 坐标系间，转换 KML 文件中的地理坐标的 Python 脚本。
 
 -------
 Enviornment／
