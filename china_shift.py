@@ -15,12 +15,16 @@ shift.transformFromWGSToGCJ.restype = Location
 shift.transformFromGCJToWGS.argtypes = [Location]
 shift.transformFromGCJToWGS.restype = Location
 
-# load KML file
-class NoShiftOptionException(Exception):
-    pass
-
+# read arguments and KML file
 try:
     import xml.etree.cElementTree as et  # C version of ElementTree
+except ImportError:
+    # in case of absence of cElementTree, use Python version of the library
+    import xml.etree.ElementTree as et
+
+class NoShiftOptionException(Exception):
+    pass
+try:
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-g', '--wgs2gcj', help = 'shift from WGS-84 to GCJ-02', action = 'store_true')
@@ -29,17 +33,16 @@ try:
     args = parser.parse_args()
     if not (args.wgs2gcj or args.gcj2wgs):
         raise NoShiftOptionException
-    tree = et.ElementTree(file = args.input_file)
-except ImportError:
-    # in case of absence of cElementTree, use Python version of the library
-    import xml.etree.ElementTree as et
-except IOError:
-    print 'Error: input file', args.input_file, 'not found.'
-    quit()
 except NoShiftOptionException:
     print 'Error: too few arguments.\n' + \
           '       Use -g (--wgs2gcj) to shift from WGS-84 to GCJ-02,\n' + \
           '        or -w (--gcj2wgs) to shift from GCJ-02 to WGS-84.'
+    quit()
+
+try:
+    tree = et.ElementTree(file = args.input_file)
+except IOError:
+    print 'Error: input file', args.input_file, 'not found.'
     quit()
 
 # process the file
